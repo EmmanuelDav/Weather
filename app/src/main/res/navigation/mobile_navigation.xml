@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="weatherApp.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_navigation_home_to_newsItemFragment"
+            app:destination="@id/newsItemFragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="weatherApp.ui.favourite.FavouriteFragment"
+        android:label="@string/title_favourite"
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_newsItemFragment"
+            app:destination="@id/newsItemFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="weatherApp.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/newsItemFragment"
+        android:name="weatherApp.ui.home.newsitem.NewsItemFragment"
+        android:label="fragment_news_item"
+        tools:layout="@layout/fragment_news_item" />
+</navigation>
