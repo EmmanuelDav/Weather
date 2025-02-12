@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
-import com.cyberiyke.weatherApp.data.remote.NetworkResult
-import com.cyberiyke.weatherApp.data.repository.ArticleRepository
+import com.cyberiyke.weatherApp.data.local.room.entity.Weather
+import com.cyberiyke.weatherApp.util.NetworkResult
+import com.cyberiyke.weatherApp.data.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,11 +21,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: ArticleRepository): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: WeatherRepository): ViewModel() {
 
     private val searchQuery = MutableStateFlow("Binance") // Default search query
 
-    val article: Flow<PagingData<WeatherEntity>> = searchQuery
+    val article: Flow<PagingData<Weather>> = searchQuery
         .flatMapLatest { query ->
             repository.getArticles(query)
         }
@@ -44,8 +44,8 @@ class HomeViewModel @Inject constructor(private val repository: ArticleRepositor
     }
 
 
-    private val _searchResults = MutableLiveData<List<WeatherEntity>>() // search results
-    val searchResults: LiveData<List<WeatherEntity>> get() = _searchResults
+    private val _searchResults = MutableLiveData<List<Weather>>() // search results
+    val searchResults: LiveData<List<Weather>> get() = _searchResults
 
 
     fun setQuery(query: String) {
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(private val repository: ArticleRepositor
         }
     }
 
-    fun saveArticleFromSearch(isFavourite: Boolean, article: WeatherEntity){
+    fun saveArticleFromSearch(isFavourite: Boolean, article: Weather){
         viewModelScope.launch (Dispatchers.IO){
             repository.insertSingle(article)
             repository.updateFavoriteStatus(article.id, isFavourite)

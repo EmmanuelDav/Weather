@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.cyberiyke.weatherApp.data.local.room.dao.ArticleDao
-import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.local.room.dao.WeatherDao
+import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
@@ -15,12 +15,12 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 }
 
 
-@Database( entities = [WeatherEntity::class], version = 1)
+@Database( entities = [Weather::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun getArticleDao(): ArticleDao
+    abstract fun getWeatherDao(): WeatherDao
 
     companion object {
-        const val DATABASE_NAME = "news_app_db" // Centralized database name
+        const val DATABASE_NAME = "weather_db" // Centralized database name
     }
 }

@@ -6,9 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.cyberiyke.weatherApp.data.local.AppDatabase
-import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.data.remote.ApiService
-import com.cyberiyke.weatherApp.data.remote.NetworkResult
+import com.cyberiyke.weatherApp.util.NetworkResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class NewsRemoteMediator @Inject constructor (
     private val apiService: ApiService,
     private val database: AppDatabase,
-) : RemoteMediator<Int, WeatherEntity>() {
+) : RemoteMediator<Int, Weather>() {
 
     private val _networkResult = MutableStateFlow<NetworkResult>(NetworkResult.Idle)
     var networkResult: MutableStateFlow<NetworkResult> = _networkResult
@@ -26,7 +26,7 @@ class NewsRemoteMediator @Inject constructor (
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, WeatherEntity>
+        state: PagingState<Int, Weather>
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> 1
@@ -56,12 +56,12 @@ class NewsRemoteMediator @Inject constructor (
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    database.getArticleDao().clearNonFavoriteData()
+                    database.getWeatherDao().clearNonFavoriteData()
                 }
 
                 // Map API response to database entities
                 val articleEntities = articles.map { article ->
-                    WeatherEntity(
+                    Weather(
                         id = article.url.hashCode(),
                         articleTitle = article.title ?: "",
                         articleDescription = article.description ?: "",
@@ -73,7 +73,7 @@ class NewsRemoteMediator @Inject constructor (
                         pager = page
                     )
                 }
-                database.getArticleDao().insertArticle(articleEntities)
+                database.getWeatherDao().insertArticle(articleEntities)
             }
             _networkResult.value = NetworkResult.Success
             return MediatorResult.Success(endOfPaginationReached = articles.isEmpty())

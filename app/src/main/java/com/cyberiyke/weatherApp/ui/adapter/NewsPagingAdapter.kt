@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.ItemNewsBinding
-import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 
-class NewsPagingAdapter : PagingDataAdapter<WeatherEntity, NewsPagingAdapter.NewsViewHolder>(WeatherEntityComparator) {
+class NewsPagingAdapter : PagingDataAdapter<Weather, NewsPagingAdapter.NewsViewHolder>(WeatherEntityComparator) {
 
     var onFavoriteToggle: ((Int, Boolean) -> Unit)? = null
-    var onItemClickListener: ((WeatherEntity) -> Unit)? = null
+    var onItemClickListener: ((Weather) -> Unit)? = null
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val article = getItem(position)
@@ -28,19 +28,19 @@ class NewsPagingAdapter : PagingDataAdapter<WeatherEntity, NewsPagingAdapter.New
     }
 
     companion object {
-        val WeatherEntityComparator = object : DiffUtil.ItemCallback<WeatherEntity>() {
-            override fun areItemsTheSame(oldItem: WeatherEntity, newItem: WeatherEntity): Boolean {
+        val WeatherEntityComparator = object : DiffUtil.ItemCallback<Weather>() {
+            override fun areItemsTheSame(oldItem: Weather, newItem: Weather): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: WeatherEntity, newItem: WeatherEntity): Boolean {
+            override fun areContentsTheSame(oldItem: Weather, newItem: Weather): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
     inner class NewsViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(article: WeatherEntity) {
+        fun bind(article: Weather) {
             binding.articleTitle.text = article.articleTitle
             binding.articleDescription.text = article.articleDescription
             binding.articleDateTime.text = article.publisedAt

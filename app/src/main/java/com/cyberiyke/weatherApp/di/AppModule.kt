@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.cyberiyke.weatherApp.data.local.AppDatabase
 import com.cyberiyke.weatherApp.data.local.MIGRATION_1_2
 import com.cyberiyke.weatherApp.data.remote.ApiService
+import com.cyberiyke.weatherApp.data.remote.NetworkConnectionInterceptor
 import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -15,9 +16,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -25,7 +28,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "https://newsapi.org/v2/"
+    private const val BASE_URL = "http://api.openweathermap.org/data/2.5/"
 
 
     @Provides
@@ -39,21 +42,25 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideArticleDao(database: AppDatabase) = database.getArticleDao()
-
+    fun provideWeatherDao(database: AppDatabase) = database.getWeatherDao()
 
     @Provides
     @Singleton
-    fun provideOkHttpsClient():OkHttpClient{
+    fun provideNetworkCheck(@ApplicationContext context: Context):NetworkConnectionInterceptor{
+        return NetworkConnectionInterceptor(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpsClient(networkConnectionInterceptor: NetworkConnectionInterceptor ):OkHttpClient{
         return OkHttpClient.Builder()
-            .addInterceptor{
-                chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Authorization", com.cyberiyke.weatherApp.BuildConfig.API_KEY)
-                    .build()
-                chain.proceed(request)
-            }
+            .addInterceptor(networkConnectionInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
+
     }
 
     @Provides
@@ -74,43 +81,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTimberTree(): Timber.Tree{
-        return if(BuildConfig.DEBUG){
-            Timber.DebugTree()
-
-        }else{
-            CrashReportingTree()
-        }
-    }
-
-    // Custom Timber tree for release builds to log to Crashlytics
-    class CrashReportingTree: Timber.Tree(){
-        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-
-            if (priority == Log.VERBOSE || priority == Log.DEBUG) return
-
-            // Log to Crashlytics for warning, error, and assert priorities
-            FirebaseCrashlytics.getInstance().log(message)
-
-            if (t != null){
-                Timber.d(t)
-                FirebaseCrashlytics.getInstance().recordException(t)
-            }
-        }
-    }
-
-    @Provides
-    @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideNewsRemoteMediator(
-        apiService: ApiService,
-        database: AppDatabase
-    ): NewsRemoteMediator {
-        return NewsRemoteMediator(apiService, database)
     }
 }
