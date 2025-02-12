@@ -19,14 +19,10 @@ import com.cyberiyke.weatherApp.util.AppUtils
  */
 
 class WeatherSearchAdapter(
-    private val viewModel: ViewModel,
     private val listener: ((Weather) -> Unit)? = null
 ) : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
 
     private var weatherList = mutableListOf<Weather>()
-
-    // Method to set search results and switch to search mode
-
 
     fun setData(newWeatherDetail: List<Weather>
     ) {
@@ -34,8 +30,6 @@ class WeatherSearchAdapter(
         weatherList.addAll(newWeatherDetail)
         notifyDataSetChanged()
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = WeatherItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

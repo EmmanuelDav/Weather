@@ -7,7 +7,6 @@ import com.cyberiyke.weatherApp.data.local.AppDatabase
 import com.cyberiyke.weatherApp.data.local.MIGRATION_1_2
 import com.cyberiyke.weatherApp.data.remote.ApiService
 import com.cyberiyke.weatherApp.data.remote.NetworkConnectionInterceptor
-import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Module

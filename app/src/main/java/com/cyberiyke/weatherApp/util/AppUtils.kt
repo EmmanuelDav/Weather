@@ -3,22 +3,11 @@ package com.cyberiyke.weatherApp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ImageView
-import android.widget.ProgressBar
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
 
 object AppUtils {
-
-    fun showProgressBar(requireContext: Context) {
-        if (!ProgressBar.getInstance().isDialogShowing()) {
-            ProgressBar.getInstance().showProgress(requireContext, false)
-        }
-    }
-
-    fun hideProgressBar() {
-        ProgressBar.getInstance().dismissProgress()
-    }
 
     fun setGlideImage(image: ImageView, url: String) {
 

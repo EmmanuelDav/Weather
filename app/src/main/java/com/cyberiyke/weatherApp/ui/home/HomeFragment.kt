@@ -2,6 +2,7 @@ package com.cyberiyke.weatherApp.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
+import com.cyberiyke.weatherApp.ui.adapter.WeatherSearchAdapter
 import com.cyberiyke.weatherApp.ui.dialog.ProgressDialog
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NetworkResult
+import com.cyberiyke.weatherApp.util.hide
+import com.cyberiyke.weatherApp.util.show
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,6 +32,7 @@ class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var adapter:WeatherSearchAdapter
 
 
     override fun onCreateView(
@@ -43,7 +48,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val progressDialog = ProgressDialog(requireContext())
+        setupUI()
+        observeAPICall()
 
     }
 
@@ -60,25 +66,31 @@ class HomeFragment : Fragment() {
     }
 
     private fun initializeRecyclerView() {
-        customAdapterSearchedCityTemperature = CustomAdapterSearchedCityTemperature()
-        val mLayoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
+        adapter = WeatherSearchAdapter()
+        val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
         binding.recyclerViewSearchedCityTemperature.apply {
             layoutManager = mLayoutManager
             itemAnimator = DefaultItemAnimator()
-            adapter = customAdapterSearchedCityTemperature
+            adapter = adapter
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun observeAPICall() {
-        homeViewModel.weatherLiveData.observe(this, Observer { state ->
+        val progressDialog = ProgressDialog(requireContext())
+
+        homeViewModel.weatherLiveData.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is NetworkResult.Error -> {}
-                is NetworkResult.Loading -> {}
+                is NetworkResult.Error -> {
+                    progressDialog.dismiss()
+                    Log.d("Issue", "observeAPICall: ${state.message}")
+
+
+                }
+                is NetworkResult.Loading -> {
+                    progressDialog.show()
+                }
                 is NetworkResult.Success -> {
                     binding.textLabelSearchForCity.hide()
                     binding.imageCity.hide()
@@ -96,6 +108,7 @@ class HomeFragment : Fragment() {
                         binding.textTemperature.text = weatherDetail.temp.toString()
                         binding.textCityName.text = "${weatherDetail.cityName?.capitalize()}, ${weatherDetail.countryName}"
                     }
+                    progressDialog.dismiss()
                 }
             }
         })

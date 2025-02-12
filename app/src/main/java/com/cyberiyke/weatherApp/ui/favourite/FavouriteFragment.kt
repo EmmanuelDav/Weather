@@ -40,24 +40,24 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun clickListener(){
-         homeAdapter = WeatherSearchAdapter(favouriteViewModel, {
-            val bundle = Bundle().apply {
-                putString("url", it.articleUrl) // Pass the article URL
-            }
-            findNavController().navigate(R.id.action_navigation_dashboard_to_newsItemFragment, bundle)
-        })
+//         homeAdapter = WeatherSearchAdapter(favouriteViewModel, {
+//            val bundle = Bundle().apply {
+//                putString("url", it.articleUrl) // Pass the article URL
+//            }
+//            findNavController().navigate(R.id.action_navigation_dashboard_to_newsItemFragment, bundle)
+//        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favouriteViewModel.favourite.observe(viewLifecycleOwner) { news ->
-            binding.rv.layoutManager = LinearLayoutManager(activity)
-            binding.rv.adapter = homeAdapter
-            if (news != null) {
-                homeAdapter.articles = news.toMutableList()
-            }
-        }
+//        favouriteViewModel.favourite.observe(viewLifecycleOwner) { news ->
+//            binding.rv.layoutManager = LinearLayoutManager(activity)
+//            binding.rv.adapter = homeAdapter
+//            if (news != null) {
+//               // homeAdapter.articles = news.toMutableList()
+//            }
+//        }
 
         clickListener()
 

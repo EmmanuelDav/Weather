@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="weatherApp.ui.home.HomeFragment"
+        android:name="com.cyberiyke.weatherApp.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="weatherApp.ui.favourite.FavouriteFragment"
+        android:name="com.cyberiyke.weatherApp.ui.favourite.FavouriteFragment"
         android:label="@string/title_favourite"
         tools:layout="@layout/fragment_favourite" >
         <action
@@ -33,12 +33,12 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="weatherApp.ui.settings.SettingsFragment"
+        android:name="com.cyberiyke.weatherApp.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/newsItemFragment"
-        android:name="weatherApp.ui.home.newsitem.NewsItemFragment"
+        android:name="com.cyberiyke.weatherApp.ui.home.newsitem.NewsItemFragment"
         android:label="fragment_news_item"
         tools:layout="@layout/fragment_news_item" />
 </navigation>

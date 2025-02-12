@@ -12,11 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteViewModel  @Inject constructor(private var repository: WeatherRepository): ViewModel() {
 
-    var favourite = repository.getFavouriteArticle()
+   // var favourite = repository.getFavouriteArticle()
 
     fun updateToggle(articleId:Int, isFavourite:Boolean){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateFavoriteStatus(articleId,isFavourite)
+           // repository.updateFavoriteStatus(articleId,isFavourite)
         }
     }
 

@@ -23,7 +23,7 @@
     <style name="Base.Theme.News.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="fontFamily">@font/calibri</item>
+        <item name="fontFamily">@font/lato</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>

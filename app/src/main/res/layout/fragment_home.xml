@@ -93,7 +93,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:itemCount="10"
-                    tools:listitem="@layout/list_item_searched_city_temperature" />
+                    tools:listitem="@layout/weather_item" />
 
                 <ImageView
                     android:id="@+id/image_weather_symbol"
