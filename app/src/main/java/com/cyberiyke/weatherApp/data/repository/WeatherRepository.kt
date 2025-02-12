@@ -13,15 +13,21 @@ class WeatherRepository @Inject constructor(
     private val weatherDao: WeatherDao
 ) : SafeApiRequest() {
 
-    suspend fun findCityWeather(cityName: String): WeatherDataResponse {
+    suspend fun findCityWeatherByApi(cityName: String): WeatherDataResponse {
         return apiRequest {
             apiService.findCityWeatherData(cityName)
         }
     }
 
-    suspend fun addWeather(weatherDetail: Weather) = weatherDao.addWeather(weatherDetail)
+    suspend fun addWeather(weatherDetail: Weather) {
+        return weatherDao.addWeather(weatherDetail)
+    }
 
-    suspend fun fetchWeatherDetail(cityName: String): Weather? = weatherDao.fetchWeatherByCity(cityName)
+    suspend fun fetchWeatherByDd(cityName: String): Weather? {
+        return weatherDao.fetchWeatherByCity(cityName)
+    }
 
-    suspend fun fetchAllWeatherDetails(): List<Weather> = weatherDao.fetchAllWeatherDetails()
+    suspend fun fetchAllWeatherDetails(): List<Weather> {
+        return  weatherDao.fetchAllWeatherDetails()
+    }
 }
