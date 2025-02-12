@@ -23,65 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: WeatherRepository): ViewModel() {
 
-    private val searchQuery = MutableStateFlow("Binance") // Default search query
 
-    val article: Flow<PagingData<Weather>> = searchQuery
-        .flatMapLatest { query ->
-            repository.getArticles(query)
-        }
-        .cachedIn(viewModelScope)
-
-    private val _networkStatus = MutableStateFlow<NetworkResult>(NetworkResult.Idle)
-    val networkStatus = _networkStatus.asStateFlow()
-
-
-    init {
-        viewModelScope.launch {
-            repository.networkResult.collect { status ->
-                _networkStatus.value = status
-            }
-        }
-    }
-
-
-    private val _searchResults = MutableLiveData<List<Weather>>() // search results
-    val searchResults: LiveData<List<Weather>> get() = _searchResults
-
-
-    fun setQuery(query: String) {
-        searchQuery.value = query
-    }
-
-
-
-    fun updateToggle(articleId:Int, isFavourite:Boolean){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateFavoriteStatus(articleId,isFavourite)
-        }
-    }
-
-    // this function conducts the seatch based on users input
-    fun searchArticles(
-        query: String,
-        pageSize: Int = 20,
-        page: Int = 1
-    ) {
-        viewModelScope.launch {
-            try {
-                val results = repository.searchArticles(query, pageSize, page)
-                _searchResults.value = results
-            } catch (e: Exception) {
-                Log.d("TAG", "searchArticles: error ${e.message}")
-            } finally {
-            }
-        }
-    }
-
-    fun saveArticleFromSearch(isFavourite: Boolean, article: Weather){
-        viewModelScope.launch (Dispatchers.IO){
-            repository.insertSingle(article)
-            repository.updateFavoriteStatus(article.id, isFavourite)
-        }
-    }
 }
 
