@@ -16,10 +16,11 @@ import com.cyberiyke.weatherApp.ui.home.HomeViewModel
 /**
  * Created by Emmanuel Iyke on 3/7/2024.
  */
-class ArticleSearchAdapter(
+
+class WeatherSearchAdapter(
     private val viewModel: ViewModel,
     private val listener: ((Weather) -> Unit)? = null
-) : RecyclerView.Adapter<ArticleSearchAdapter.HomeViewHolder>() {
+) : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
 
     private var mainArticleList = mutableListOf<Weather>()
     private var searchResultsList = mutableListOf<Weather>()

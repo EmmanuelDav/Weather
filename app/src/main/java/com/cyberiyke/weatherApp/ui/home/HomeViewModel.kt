@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
     private lateinit var weatherDataResponse : WeatherDataResponse
 
 
-    fun findWeatherByCity(city:String){
+    private fun findWeatherByCity(city:String){
         _weatherLiveData.value = NetworkResult.loading()
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -104,6 +104,5 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
             }
         }
     }
-
 }
 
