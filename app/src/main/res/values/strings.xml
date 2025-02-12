@@ -3,6 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="search">Search</string>
+    <string name="today">Today</string>
+    <string name="search_city_weather">Search City Weather</string>
+    <string name="search_for_a_city">Search for a city</string>
+
 </resources>

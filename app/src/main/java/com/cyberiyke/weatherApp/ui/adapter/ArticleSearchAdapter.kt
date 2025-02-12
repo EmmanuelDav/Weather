@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cyberiyke.weatherApp.R
-import com.cyberiyke.weatherApp.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.local.ArticleEntity
 import com.cyberiyke.weatherApp.databinding.LayoutItemNewsSearchBinding
 import com.cyberiyke.weatherApp.ui.favourite.FavouriteViewModel
 import com.cyberiyke.weatherApp.ui.home.HomeViewModel

@@ -1,14 +1,14 @@
-package com.cyberiyke.weatherApp.paging
+package com.cyberiyke.weatherApp.util.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.cyberiyke.weatherApp.local.AppDatabase
-import com.cyberiyke.weatherApp.local.ArticleEntity
-import com.cyberiyke.weatherApp.network.ApiService
-import com.cyberiyke.weatherApp.network.NetworkResult
+import com.cyberiyke.weatherApp.data.local.AppDatabase
+import com.cyberiyke.weatherApp.data.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.network.ApiService
+import com.cyberiyke.weatherApp.data.network.NetworkResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 

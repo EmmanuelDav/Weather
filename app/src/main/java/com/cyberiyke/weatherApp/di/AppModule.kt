@@ -3,10 +3,10 @@ package com.cyberiyke.weatherApp.di
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import com.cyberiyke.weatherApp.local.AppDatabase
-import com.cyberiyke.weatherApp.local.MIGRATION_1_2
-import com.cyberiyke.weatherApp.network.ApiService
-import com.cyberiyke.weatherApp.paging.NewsRemoteMediator
+import com.cyberiyke.weatherApp.data.local.AppDatabase
+import com.cyberiyke.weatherApp.data.local.MIGRATION_1_2
+import com.cyberiyke.weatherApp.data.network.ApiService
+import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Module

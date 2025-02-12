@@ -1,4 +1,4 @@
-package com.cyberiyke.weatherApp.model
+package com.cyberiyke.weatherApp.data.model
 
 import com.google.gson.annotations.SerializedName
 

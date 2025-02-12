@@ -1,15 +1,15 @@
-package com.cyberiyke.weatherApp.repository
+package com.cyberiyke.weatherApp.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.cyberiyke.weatherApp.local.AppDatabase
-import com.cyberiyke.weatherApp.local.ArticleDao
-import com.cyberiyke.weatherApp.local.ArticleEntity
-import com.cyberiyke.weatherApp.network.ApiService
-import com.cyberiyke.weatherApp.network.NetworkResult
-import com.cyberiyke.weatherApp.paging.NewsRemoteMediator
+import com.cyberiyke.weatherApp.data.local.AppDatabase
+import com.cyberiyke.weatherApp.data.local.ArticleDao
+import com.cyberiyke.weatherApp.data.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.network.ApiService
+import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber

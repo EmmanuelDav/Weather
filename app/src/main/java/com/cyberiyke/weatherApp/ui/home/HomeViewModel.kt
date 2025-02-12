@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.cyberiyke.weatherApp.local.ArticleEntity
-import com.cyberiyke.weatherApp.network.NetworkResult
-import com.cyberiyke.weatherApp.repository.ArticleRepository
+import com.cyberiyke.weatherApp.data.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.data.repository.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

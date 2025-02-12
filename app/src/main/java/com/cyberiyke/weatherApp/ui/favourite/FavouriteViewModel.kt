@@ -2,7 +2,7 @@ package com.cyberiyke.weatherApp.ui.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cyberiyke.weatherApp.repository.ArticleRepository
+import com.cyberiyke.weatherApp.data.repository.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

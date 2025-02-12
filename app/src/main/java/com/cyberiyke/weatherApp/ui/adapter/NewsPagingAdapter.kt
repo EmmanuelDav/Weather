@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.ItemNewsBinding
-import com.cyberiyke.weatherApp.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.local.ArticleEntity
 
 class NewsPagingAdapter : PagingDataAdapter<ArticleEntity, NewsPagingAdapter.NewsViewHolder>(ArticleEntityComparator) {
 

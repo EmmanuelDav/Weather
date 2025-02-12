@@ -1,4 +1,4 @@
-package com.cyberiyke.weatherApp.local
+package com.cyberiyke.weatherApp.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
