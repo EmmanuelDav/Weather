@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
-import com.cyberiyke.weatherApp.databinding.LayoutItemNewsSearchBinding
 import com.cyberiyke.weatherApp.databinding.WeatherItemBinding
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
@@ -61,7 +60,7 @@ class WeatherSearchAdapter(
         }
     }
 
-    private fun updateFavoriteIcon(isFavorite: Boolean, binding: LayoutItemNewsSearchBinding) {
+    private fun updateFavoriteIcon(isFavorite: Boolean, binding: WeatherItemBinding) {
         binding.favoriteButton.icon = ContextCompat.getDrawable(
             binding.root.context,
             if (isFavorite) R.drawable.star_icon_filled else R.drawable.star_icon
