@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.cyberiyke.weatherApp.data.local.ArticleEntity
-import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.remote.NetworkResult
 import com.cyberiyke.weatherApp.data.repository.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(private val repository: ArticleRepositor
 
     private val searchQuery = MutableStateFlow("Binance") // Default search query
 
-    val article: Flow<PagingData<ArticleEntity>> = searchQuery
+    val article: Flow<PagingData<WeatherEntity>> = searchQuery
         .flatMapLatest { query ->
             repository.getArticles(query)
         }
@@ -44,8 +44,8 @@ class HomeViewModel @Inject constructor(private val repository: ArticleRepositor
     }
 
 
-    private val _searchResults = MutableLiveData<List<ArticleEntity>>() // search results
-    val searchResults: LiveData<List<ArticleEntity>> get() = _searchResults
+    private val _searchResults = MutableLiveData<List<WeatherEntity>>() // search results
+    val searchResults: LiveData<List<WeatherEntity>> get() = _searchResults
 
 
     fun setQuery(query: String) {
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(private val repository: ArticleRepositor
         }
     }
 
-    fun saveArticleFromSearch(isFavourite: Boolean, article: ArticleEntity){
+    fun saveArticleFromSearch(isFavourite: Boolean, article: WeatherEntity){
         viewModelScope.launch (Dispatchers.IO){
             repository.insertSingle(article)
             repository.updateFavoriteStatus(article.id, isFavourite)

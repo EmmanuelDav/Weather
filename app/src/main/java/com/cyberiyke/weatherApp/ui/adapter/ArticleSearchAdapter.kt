@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cyberiyke.weatherApp.R
-import com.cyberiyke.weatherApp.data.local.ArticleEntity
+import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
 import com.cyberiyke.weatherApp.databinding.LayoutItemNewsSearchBinding
 import com.cyberiyke.weatherApp.ui.favourite.FavouriteViewModel
 import com.cyberiyke.weatherApp.ui.home.HomeViewModel
@@ -18,14 +18,14 @@ import com.cyberiyke.weatherApp.ui.home.HomeViewModel
  */
 class ArticleSearchAdapter(
     private val viewModel: ViewModel,
-    private val listener: ((ArticleEntity) -> Unit)? = null
+    private val listener: ((WeatherEntity) -> Unit)? = null
 ) : RecyclerView.Adapter<ArticleSearchAdapter.HomeViewHolder>() {
 
-    private var mainArticleList = mutableListOf<ArticleEntity>()
-    private var searchResultsList = mutableListOf<ArticleEntity>()
+    private var mainArticleList = mutableListOf<WeatherEntity>()
+    private var searchResultsList = mutableListOf<WeatherEntity>()
     private var isSearchMode = false
 
-    var articles: List<ArticleEntity>
+    var articles: List<WeatherEntity>
         get() = if (isSearchMode) searchResultsList else mainArticleList
         set(value) {
             mainArticleList = value.toMutableList() // Update main article list
@@ -35,7 +35,7 @@ class ArticleSearchAdapter(
         }
 
     // Method to set search results and switch to search mode
-    fun setSearchResults(results: List<ArticleEntity>) {
+    fun setSearchResults(results: List<WeatherEntity>) {
         searchResultsList = results.toMutableList()
         isSearchMode = true
         notifyDataSetChanged()
@@ -59,7 +59,7 @@ class ArticleSearchAdapter(
     }
 
     inner class HomeViewHolder(private val binding: LayoutItemNewsSearchBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(article: ArticleEntity) = with(itemView) {
+        fun bind(article: WeatherEntity) = with(itemView) {
             binding.articleTitle.text = article.articleTitle
             binding.articleDescription.text = article.articleDescription
             binding.articleDateTime.text = article.publisedAt

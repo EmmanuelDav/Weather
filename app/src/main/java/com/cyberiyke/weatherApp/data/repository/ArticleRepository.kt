@@ -5,10 +5,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.cyberiyke.weatherApp.data.local.AppDatabase
-import com.cyberiyke.weatherApp.data.local.ArticleDao
-import com.cyberiyke.weatherApp.data.local.ArticleEntity
-import com.cyberiyke.weatherApp.data.network.ApiService
-import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.data.local.room.dao.ArticleDao
+import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.remote.ApiService
+import com.cyberiyke.weatherApp.data.remote.NetworkResult
 import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +27,7 @@ class ArticleRepository @Inject constructor(
     var networkResult: StateFlow<NetworkResult> = remoteMediator.networkResult
 
     // here we are fetching articles from the api and caching them in room database
-    fun getArticles(query: String): Flow<PagingData<ArticleEntity>> {
+    fun getArticles(query: String): Flow<PagingData<WeatherEntity>> {
 
         remoteMediator.query = query // Dynamically set the query
 
@@ -51,14 +51,14 @@ class ArticleRepository @Inject constructor(
         query: String,
         pageSize: Int = 20,
         page: Int = 1
-    ): List<ArticleEntity> {
+    ): List<WeatherEntity> {
         // Fetch from the API
         val response = apiService.getEveryThing(query, pageSize, page)
 
         return try {
             if (response.isSuccessful) {
                 response.body()?.articles?.map { article ->
-                    ArticleEntity(
+                    WeatherEntity(
                         articleTitle = article.title ?: "",
                         articleDescription = article.description ?: "",
                         articleUrl = article.url ?: "",
@@ -85,12 +85,12 @@ class ArticleRepository @Inject constructor(
         articleDao.updateFavoriteStatus(articleId, isFavourite)
     }
 
-    fun getFavouriteArticle(): LiveData<List<ArticleEntity>> {
+    fun getFavouriteArticle(): LiveData<List<WeatherEntity>> {
         return articleDao.getFavoriteArticles()
     }
 
-    suspend fun insertSingle(articleEntity: ArticleEntity) {
-        articleDao.insertArticle(listOf(articleEntity))
+    suspend fun insertSingle(weatherEntity: WeatherEntity) {
+        articleDao.insertArticle(listOf(weatherEntity))
     }
 
 }

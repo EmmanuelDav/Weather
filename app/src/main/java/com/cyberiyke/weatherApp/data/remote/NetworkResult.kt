@@ -1,4 +1,4 @@
-package com.cyberiyke.weatherApp.data.network
+package com.cyberiyke.weatherApp.data.remote
 
 sealed class NetworkResult {
     object Idle : NetworkResult()

@@ -1,6 +1,6 @@
-package com.cyberiyke.weatherApp.data.network
+package com.cyberiyke.weatherApp.data.remote
 
-import com.cyberiyke.weatherApp.data.model.NewsResponse
+import com.cyberiyke.weatherApp.data.local.model.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

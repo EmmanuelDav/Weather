@@ -1,10 +1,10 @@
-package com.cyberiyke.weatherApp.data.local
+package com.cyberiyke.weatherApp.data.local.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "favourite_article")
-data class ArticleEntity(
+data class WeatherEntity(
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,

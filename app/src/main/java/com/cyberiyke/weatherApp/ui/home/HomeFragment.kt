@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
-import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.data.remote.NetworkResult
 import com.cyberiyke.weatherApp.ui.MainActivity
 import com.cyberiyke.weatherApp.ui.adapter.ArticleSearchAdapter
 import com.cyberiyke.weatherApp.ui.adapter.NewsLoadStateAdapter

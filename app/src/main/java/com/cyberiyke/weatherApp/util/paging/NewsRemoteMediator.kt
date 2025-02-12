@@ -6,9 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.cyberiyke.weatherApp.data.local.AppDatabase
-import com.cyberiyke.weatherApp.data.local.ArticleEntity
-import com.cyberiyke.weatherApp.data.network.ApiService
-import com.cyberiyke.weatherApp.data.network.NetworkResult
+import com.cyberiyke.weatherApp.data.local.room.entity.WeatherEntity
+import com.cyberiyke.weatherApp.data.remote.ApiService
+import com.cyberiyke.weatherApp.data.remote.NetworkResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class NewsRemoteMediator @Inject constructor (
     private val apiService: ApiService,
     private val database: AppDatabase,
-) : RemoteMediator<Int, ArticleEntity>() {
+) : RemoteMediator<Int, WeatherEntity>() {
 
     private val _networkResult = MutableStateFlow<NetworkResult>(NetworkResult.Idle)
     var networkResult: MutableStateFlow<NetworkResult> = _networkResult
@@ -26,7 +26,7 @@ class NewsRemoteMediator @Inject constructor (
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, ArticleEntity>
+        state: PagingState<Int, WeatherEntity>
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> 1
@@ -61,7 +61,7 @@ class NewsRemoteMediator @Inject constructor (
 
                 // Map API response to database entities
                 val articleEntities = articles.map { article ->
-                    ArticleEntity(
+                    WeatherEntity(
                         id = article.url.hashCode(),
                         articleTitle = article.title ?: "",
                         articleDescription = article.description ?: "",

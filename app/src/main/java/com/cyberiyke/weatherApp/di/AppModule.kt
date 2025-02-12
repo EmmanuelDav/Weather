@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.room.Room
 import com.cyberiyke.weatherApp.data.local.AppDatabase
 import com.cyberiyke.weatherApp.data.local.MIGRATION_1_2
-import com.cyberiyke.weatherApp.data.network.ApiService
+import com.cyberiyke.weatherApp.data.remote.ApiService
 import com.cyberiyke.weatherApp.util.paging.NewsRemoteMediator
 import com.google.firebase.crashlytics.BuildConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
