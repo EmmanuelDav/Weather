@@ -1,5 +1,6 @@
 package com.cyberiyke.weatherApp.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,8 +10,11 @@ import com.bumptech.glide.Glide
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.databinding.LayoutItemNewsSearchBinding
+import com.cyberiyke.weatherApp.databinding.WeatherItemBinding
 import com.cyberiyke.weatherApp.ui.favourite.FavouriteViewModel
 import com.cyberiyke.weatherApp.ui.home.HomeViewModel
+import com.cyberiyke.weatherApp.util.AppConstants
+import com.cyberiyke.weatherApp.util.AppUtils
 
 
 /**
@@ -49,44 +53,31 @@ class WeatherSearchAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val view = LayoutItemNewsSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = WeatherItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeViewHolder(view)
     }
 
     override fun getItemCount() = articles.size
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bind(articles[position])
+        holder.bindItems(articles[position])
     }
 
-    inner class HomeViewHolder(private val binding: LayoutItemNewsSearchBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(article: Weather) = with(itemView) {
-            binding.articleTitle.text = article.articleTitle
-            binding.articleDescription.text = article.articleDescription
-            binding.articleDateTime.text = article.publisedAt
-            binding.articleSource.text = article.articleSource
-            updateFavoriteIcon(article.isFavorite, binding)
-            Glide.with(this)
-                .load(article.articleUrlToImage)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder)
-                .into(binding.articleImage)
-            setOnClickListener {
-                listener?.invoke(article)
-            }
-            binding.favoriteButton.setOnClickListener {
-                val newFavState = !article.isFavorite
-                article.isFavorite = newFavState
-                updateFavoriteIcon(newFavState, binding)
+    inner class HomeViewHolder(private val binding: WeatherItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-                when (viewModel) {
-                    is HomeViewModel -> viewModel.updateToggle(article.id, newFavState)
-                    is FavouriteViewModel -> viewModel.updateToggle(article.id, newFavState)
-                }
-
-                if (isSearchMode && viewModel is HomeViewModel) {
-                    viewModel.saveArticleFromSearch(newFavState, article)
-                }
+        @SuppressLint("SetTextI18n")
+        fun bindItems(weatherDetail: Weather) {
+            binding.apply {
+                val iconCode = weatherDetail.icon?.replace("n", "d")
+                AppUtils.setGlideImage(
+                    imageWeatherSymbol,
+                    AppConstants.WEATHER_API_IMAGE_ENDPOINT + "${iconCode}@4x.png"
+                )
+                textCityName.text =
+                    "${weatherDetail.cityName?.capitalize()}, ${weatherDetail.countryName}"
+                textTemperature.text = weatherDetail.temp.toString()
+                textDateTime.text = weatherDetail.dateTime
             }
         }
     }
