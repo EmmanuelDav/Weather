@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/black_outline_square_rounded_shape_bg"
-        android:padding="20dp">
+        android:padding="17dp">
 
         <ImageView
             android:id="@+id/image_weather_symbol"
@@ -78,10 +78,9 @@
             android:layout_height="wrap_content"
             app:icon="@drawable/star_icon"
             app:iconGravity="textStart"
-            app:iconSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:iconSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_temperature" />
+            app:layout_constraintTop_toBottomOf="@+id/text_label_degree" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
