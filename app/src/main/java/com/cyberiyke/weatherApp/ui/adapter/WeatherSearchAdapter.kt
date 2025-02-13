@@ -17,14 +17,11 @@ import com.cyberiyke.weatherApp.util.AppUtils
  * Created by Emmanuel Iyke on 3/7/2024.
  */
 
-class WeatherSearchAdapter(
-    private val listener: ((Weather) -> Unit)? = null
-) : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
+class WeatherSearchAdapter : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
 
     private var weatherList = mutableListOf<Weather>()
 
-    fun setData(newWeatherDetail: List<Weather>
-    ) {
+    fun setData(newWeatherDetail: List<Weather>) {
         weatherList.clear()
         weatherList.addAll(newWeatherDetail)
         notifyDataSetChanged()

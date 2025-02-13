@@ -41,31 +41,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:id="@+id/text_label_search_for_city"
-            style="@style/TextViewHeaderStyle"
-            android:layout_width="wrap_content"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="@string/search_for_a_city"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
 
-        <ImageView
-            android:id="@+id/image_city"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="visible"
-            android:layout_marginTop="64dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/city_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_label_search_for_city" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -80,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/image_weather_symbol"
@@ -153,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginTop="16dp"
+                    android:visibility="gone"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,18 +139,17 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_searched_city_temperature"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
+                    tools:listitem="@layout/weather_item"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_weather_human_reaction"
-                    tools:itemCount="10" />
+                    app:layout_constraintTop_toBottomOf="@+id/image_weather_human_reaction" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

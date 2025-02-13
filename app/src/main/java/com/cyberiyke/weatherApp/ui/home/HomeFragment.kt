@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var adapter:WeatherSearchAdapter
+    private lateinit var weatherSearchAdapter:WeatherSearchAdapter
 
 
     override fun onCreateView(
@@ -50,7 +50,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         observeAPICall()
-
+        homeViewModel.fetchWeatherDetailFromDb("New York")
+        homeViewModel.fetchAllWeatherDetailsFromDb()
     }
 
 
@@ -66,13 +67,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun initializeRecyclerView() {
-        adapter = WeatherSearchAdapter()
-        val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false
-        )
+        weatherSearchAdapter = WeatherSearchAdapter()
+        val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewSearchedCityTemperature.apply {
             layoutManager = mLayoutManager
             itemAnimator = DefaultItemAnimator()
-            adapter = adapter
+            adapter = weatherSearchAdapter
         }
     }
 
@@ -92,8 +92,6 @@ class HomeFragment : Fragment() {
                     progressDialog.show()
                 }
                 is NetworkResult.Success -> {
-                    binding.textLabelSearchForCity.hide()
-                    binding.imageCity.hide()
                     binding.constraintLayoutShowingTemp.show()
                     binding.inputFindCityWeather.text?.clear()
                     state.data.let { weatherDetail ->
@@ -109,6 +107,25 @@ class HomeFragment : Fragment() {
                         binding.textCityName.text = "${weatherDetail.cityName?.capitalize()}, ${weatherDetail.countryName}"
                     }
                     progressDialog.dismiss()
+                }
+            }
+        })
+
+        homeViewModel.weatherListData.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is NetworkResult.Loading -> {
+
+                }
+                is NetworkResult.Success -> {
+                    if (state.data.isEmpty()) {
+                        binding.recyclerViewSearchedCityTemperature.hide()
+                    } else {
+                        binding.recyclerViewSearchedCityTemperature.show()
+                        weatherSearchAdapter.setData(state.data)
+                    }
+                }
+                is NetworkResult.Error -> {
+
                 }
             }
         })
