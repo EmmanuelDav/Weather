@@ -9,5 +9,6 @@
     <string name="today">Today</string>
     <string name="search_city_weather">Search City Weather</string>
     <string name="search_for_a_city">Search for a city</string>
+    <string name="no_internet">You Seem To Have Lost Connection. Swipe Refresh To Retry</string>
 
 </resources>

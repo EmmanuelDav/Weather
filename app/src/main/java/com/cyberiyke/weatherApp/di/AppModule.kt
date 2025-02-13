@@ -1,6 +1,8 @@
 package com.cyberiyke.weatherApp.di
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.room.Room
 import com.cyberiyke.weatherApp.data.local.AppDatabase
@@ -29,6 +31,11 @@ object AppModule {
 
     private const val BASE_URL = "http://api.openweathermap.org/data/2.5/"
 
+
+    @Provides
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("ThemePrefs", MODE_PRIVATE)
+    }
 
     @Provides
     @Singleton

@@ -35,6 +35,9 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var weatherSearchAdapter:WeatherSearchAdapter
 
+    private lateinit var progressDialog:ProgressDialog
+
+    private  var darkModeIsChecked = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +46,7 @@ class HomeFragment : Fragment() {
     ): View {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        homeViewModel.fetchWeatherDetailFromDb("Lagos")
         val root: View = binding.root
         return root
     }
@@ -51,8 +55,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         observeAPICall()
-        homeViewModel.fetchWeatherDetailFromDb("New York")
         homeViewModel.fetchAllWeatherDetailsFromDb()
+
     }
 
 
@@ -65,10 +69,28 @@ class HomeFragment : Fragment() {
             }
             false
         }
+
+        binding.swipeRefresh.setOnRefreshListener {
+
+            binding.swipeRefresh.isRefreshing = true
+            progressDialog.show()
+
+
+            homeViewModel.fetchWeatherDetailFromDb("Washington")
+            homeViewModel.fetchAllWeatherDetailsFromDb()
+        }
+
+        binding.darkMode.setOnClickListener {
+            homeViewModel.onThemeToggleChanged(darkModeIsChecked)
+            darkModeIsChecked = !darkModeIsChecked
+        }
+
+
     }
 
     private fun initializeRecyclerView() {
         weatherSearchAdapter = WeatherSearchAdapter()
+        progressDialog = ProgressDialog(requireContext())
         val mLayoutManager = GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerViewSearchedCityTemperature.apply {
             layoutManager = mLayoutManager
@@ -79,8 +101,6 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeAPICall() {
-        val progressDialog = ProgressDialog(requireContext())
-
         homeViewModel.weatherLiveData.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is NetworkResult.Error -> {
@@ -108,6 +128,8 @@ class HomeFragment : Fragment() {
                         binding.textCityName.text = "${weatherDetail.cityName?.capitalize()}, ${weatherDetail.countryName}"
                     }
                     progressDialog.dismiss()
+                    binding.swipeRefresh.isRefreshing = false
+
                 }
             }
         })
@@ -123,6 +145,7 @@ class HomeFragment : Fragment() {
                     } else {
                         binding.recyclerViewSearchedCityTemperature.show()
                         weatherSearchAdapter.setData(state.data)
+                        binding.swipeRefresh.isRefreshing = false
                     }
                 }
                 is NetworkResult.Error -> {
@@ -130,6 +153,14 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+
+        homeViewModel.isDarkMode.observe(viewLifecycleOwner){ isdark ->
+            if (isdark) {
+                binding.darkMode.setIconResource(R.drawable.dark_mode_24dp)
+            } else {
+                binding.darkMode.setIconResource(R.drawable.light_mode)
+            }
+        }
     }
 
     private fun changeBgAccToTemp(iconCode: String?) {

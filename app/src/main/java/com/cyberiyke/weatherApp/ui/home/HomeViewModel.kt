@@ -1,6 +1,10 @@
 package com.cyberiyke.weatherApp.ui.home
 
+import android.app.Application
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +29,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: WeatherRepository): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: WeatherRepository, private val sharedPreferences: SharedPreferences): ViewModel() {
 
     private val _weatherLiveData = MutableLiveData<NetworkResult<Weather>>()
     val weatherLiveData:LiveData<NetworkResult<Weather>>  = _weatherLiveData
@@ -34,6 +38,18 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
     val weatherListData:LiveData<NetworkResult<List<Weather>>>  = _weatherListData
 
     private lateinit var weatherDataResponse : WeatherDataResponse
+
+    private val _isDarkMode = MutableLiveData<Boolean>()
+    val isDarkMode: LiveData<Boolean>
+        get() = _isDarkMode
+
+
+    init {
+        _isDarkMode.value = sharedPreferences.getBoolean("isDarkMode", false)
+    }
+
+
+
 
 
     private fun findWeatherByCity(city:String){
@@ -103,6 +119,20 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                 )
             }
         }
+    }
+
+    fun onThemeToggleChanged(isChecked: Boolean) {
+        _isDarkMode.value = isChecked
+        AppCompatDelegate.setDefaultNightMode(
+            if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+        saveThemeSetting(isChecked)
+    }
+
+    private fun saveThemeSetting(isDarkMode: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isDarkMode", isDarkMode)
+        editor.apply()
     }
 }
 
