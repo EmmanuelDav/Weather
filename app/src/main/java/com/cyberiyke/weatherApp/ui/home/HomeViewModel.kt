@@ -15,8 +15,10 @@ import com.cyberiyke.weatherApp.data.local.model.WeatherDataResponse
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.util.NetworkResult
 import com.cyberiyke.weatherApp.data.repository.WeatherRepository
+import com.cyberiyke.weatherApp.util.ApiException
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
+import com.cyberiyke.weatherApp.util.NoInternetException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -67,9 +70,17 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                     _weatherLiveData.value = NetworkResult.success(weather)
                 }
 
-            }catch (e: Exception){
+            } catch (e: ApiException) {
                 withContext(Dispatchers.Main) {
-                    _weatherLiveData.postValue(NetworkResult.error(e.message ?: ""))
+                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
+                }
+            } catch (e: NoInternetException) {
+                withContext(Dispatchers.Main) {
+                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
                 }
             }
         }

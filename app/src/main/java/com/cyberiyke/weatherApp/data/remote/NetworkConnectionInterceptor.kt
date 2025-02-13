@@ -6,6 +6,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.cyberiyke.weatherApp.util.ApiException
+import com.cyberiyke.weatherApp.util.NoInternetException
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -18,7 +20,7 @@ class NetworkConnectionInterceptor(
     @RequiresApi(Build.VERSION_CODES.M)
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isInternetAvailable())
-            throw Exception("Make sure you have an active data connection")
+            throw NoInternetException("Make sure you have an active data connection")
         return chain.proceed(chain.request())
     }
 

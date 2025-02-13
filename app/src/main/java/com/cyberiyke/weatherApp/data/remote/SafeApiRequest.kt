@@ -1,5 +1,6 @@
 package com.cyberiyke.weatherApp.data.remote
 
+import com.cyberiyke.weatherApp.util.ApiException
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
@@ -20,7 +21,7 @@ abstract class SafeApiRequest {
                 } catch (e: JSONException) {
                 }
             }
-            throw Exception(message.toString())
+            throw ApiException(message.toString())
         }
     }
 }

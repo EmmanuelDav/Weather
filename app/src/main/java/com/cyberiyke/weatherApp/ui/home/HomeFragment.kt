@@ -105,7 +105,9 @@ class HomeFragment : Fragment() {
             when (state) {
                 is NetworkResult.Error -> {
                     progressDialog.dismiss()
-                    Log.d("Issue", "observeAPICall: ${state.message}")
+                    binding.NoNetworkLayout.show()
+                    binding.constraintLayoutShowingTemp.hide()
+                    Log.d("TAG", "observeAPICall: ${state.message}")
 
 
                 }
@@ -113,6 +115,7 @@ class HomeFragment : Fragment() {
                     progressDialog.show()
                 }
                 is NetworkResult.Success -> {
+                    binding.NoNetworkLayout.hide()
                     binding.constraintLayoutShowingTemp.show()
                     binding.inputFindCityWeather.text?.clear()
                     state.data.let { weatherDetail ->
@@ -137,6 +140,8 @@ class HomeFragment : Fragment() {
         homeViewModel.weatherListData.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is NetworkResult.Loading -> {
+                    progressDialog.dismiss()
+                    binding.NoNetworkLayout.show()
 
                 }
                 is NetworkResult.Success -> {
