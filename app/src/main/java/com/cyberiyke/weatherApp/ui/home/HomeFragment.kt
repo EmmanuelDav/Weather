@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
     ): View {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        homeViewModel.fetchWeatherDetailFromDb("Lagos")
         val root: View = binding.root
         return root
     }
@@ -61,6 +60,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         observeAPICall()
+        homeViewModel.fetchWeatherDetailFromDb("Lagos")
         homeViewModel.fetchAllWeatherDetailsFromDb()
 
     }
@@ -153,6 +153,7 @@ class HomeFragment : Fragment() {
                         binding.textTemperature.text = weatherDetail.temp.toString()
                         binding.textCityName.text = "${weatherDetail.cityName?.capitalize()}, ${weatherDetail.countryName}"
                     }
+                    homeViewModel.fetchAllWeatherDetailsFromDb()
                     progressDialog.dismiss()
                     binding.swipeRefresh.isRefreshing = false
 
