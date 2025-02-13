@@ -57,12 +57,12 @@ class WeatherSearchAdapter : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewH
         }
     }
 
-    private fun updateFavoriteIcon(isFavorite: Boolean, binding: WeatherItemBinding) {
-        binding.favoriteButton.icon = ContextCompat.getDrawable(
-            binding.root.context,
-            if (isFavorite) R.drawable.star_icon_filled else R.drawable.star_icon
-        )
-    }
+//    private fun updateFavoriteIcon(isFavorite: Boolean, binding: WeatherItemBinding) {
+//        binding.favoriteButton.icon = ContextCompat.getDrawable(
+//            binding.root.context,
+//            if (isFavorite) R.drawable.star_icon_filled else R.drawable.star_icon
+//        )
+//    }
 }
 
 

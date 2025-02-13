@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
@@ -68,7 +69,7 @@ class HomeFragment : Fragment() {
 
     private fun initializeRecyclerView() {
         weatherSearchAdapter = WeatherSearchAdapter()
-        val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val mLayoutManager = GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerViewSearchedCityTemperature.apply {
             layoutManager = mLayoutManager
             itemAnimator = DefaultItemAnimator()

@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:background="@drawable/black_outline_square_rounded_shape_bg"
-        android:padding="17dp">
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/image_weather_symbol"
-            android:layout_width="66dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="30dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,10 +23,8 @@
             style="@style/TextViewBodyStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/text_temperature"
-            app:layout_constraintHorizontal_bias="0.39"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/image_weather_symbol"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ajmer, IN" />
@@ -40,7 +37,7 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="16sp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@+id/text_city_name"
             app:layout_constraintStart_toStartOf="@+id/text_city_name"
             app:layout_constraintTop_toBottomOf="@+id/text_city_name"
@@ -53,10 +50,10 @@
             style="@style/TextViewHeaderStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:textSize="27sp"
+            android:layout_marginStart="16dp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/text_date_time"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_city_name"
             app:layout_constraintTop_toTopOf="@+id/text_city_name"
             tools:text="28" />
 
@@ -66,22 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="\u2103"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/text_temperature"
             app:layout_constraintTop_toTopOf="@+id/text_temperature" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/favoriteButton"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/star_icon"
-            app:iconGravity="textStart"
-            app:iconSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_label_degree" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
