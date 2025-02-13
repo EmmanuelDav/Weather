@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewsApp</string>
+    <string name="app_name">Weather App</string>
     <string name="title_home">Home</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_settings">Settings</string>

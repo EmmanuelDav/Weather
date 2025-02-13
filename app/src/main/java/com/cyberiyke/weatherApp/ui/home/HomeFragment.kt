@@ -1,6 +1,7 @@
 package com.cyberiyke.weatherApp.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cyberiyke.weatherApp.R
+import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
 import com.cyberiyke.weatherApp.ui.adapter.WeatherSearchAdapter
 import com.cyberiyke.weatherApp.ui.dialog.ProgressDialog
@@ -23,6 +27,8 @@ import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NetworkResult
 import com.cyberiyke.weatherApp.util.hide
 import com.cyberiyke.weatherApp.util.show
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -71,10 +77,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-
             binding.swipeRefresh.isRefreshing = true
             progressDialog.show()
-
 
             homeViewModel.fetchWeatherDetailFromDb("Washington")
             homeViewModel.fetchAllWeatherDetailsFromDb()
@@ -84,20 +88,39 @@ class HomeFragment : Fragment() {
             homeViewModel.onThemeToggleChanged(darkModeIsChecked)
             darkModeIsChecked = !darkModeIsChecked
         }
-
-
     }
 
     private fun initializeRecyclerView() {
-        weatherSearchAdapter = WeatherSearchAdapter()
+        weatherSearchAdapter = WeatherSearchAdapter({ weather: Weather ->
+            showDeleteConfirmationDialog(requireContext(), weather) {
+                // Perform the delete operation
+                homeViewModel.removeFromFavourite(weather)
+                Toast.makeText(context, "Deleted weather for ${weather.countryName}", Toast.LENGTH_SHORT).show()
+                homeViewModel.fetchAllWeatherDetailsFromDb()
+            }
+        })
         progressDialog = ProgressDialog(requireContext())
-        val mLayoutManager = GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false)
+        val mLayoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerViewSearchedCityTemperature.apply {
             layoutManager = mLayoutManager
             itemAnimator = DefaultItemAnimator()
             adapter = weatherSearchAdapter
         }
+
     }
+
+    private fun showDeleteConfirmationDialog(context: Context, weather: Weather, onConfirm: () -> Unit) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Delete Weather From ${weather.cityName}?")
+            .setMessage("Are you sure you want to delete the weather data for ${weather.cityName}?")
+            .setPositiveButton("Delete") { _, _ ->
+                onConfirm() // Call the delete function
+            }
+            .setNegativeButton("Cancel", null) // Just dismiss the dialog
+            .setCancelable(false) // Prevent accidental dismiss
+            .show()
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun observeAPICall() {

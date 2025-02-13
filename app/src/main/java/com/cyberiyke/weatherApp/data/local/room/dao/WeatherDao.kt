@@ -1,6 +1,7 @@
 package com.cyberiyke.weatherApp.data.local.room.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,5 +19,10 @@ interface WeatherDao {
 
     @Query("SELECT * FROM ${Weather.TABLE_NAME}")
     suspend fun fetchAllWeatherDetails(): List<Weather>
+
+
+    @Query("DELETE FROM ${Weather.TABLE_NAME} WHERE id = :id")
+    suspend fun deleteWeatherById(id: Int)
+
 
 }

@@ -24,4 +24,5 @@ abstract class SafeApiRequest {
             throw ApiException(message.toString())
         }
     }
+
 }

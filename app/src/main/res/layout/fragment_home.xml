@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/image_weather_symbol"
@@ -118,14 +118,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:backgroundTint="@android:color/transparent"
-                        android:contentDescription="favorite"
                         app:icon="@drawable/light_mode"
                         app:iconSize="34dp"
                         app:iconTint="@color/color_black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:rippleColor="@android:color/transparent" />
-
 
 
                     <TextView

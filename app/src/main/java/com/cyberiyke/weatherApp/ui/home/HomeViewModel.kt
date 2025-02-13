@@ -52,9 +52,6 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
     }
 
 
-
-
-
     private fun findWeatherByCity(city:String){
         _weatherLiveData.value = NetworkResult.loading()
         viewModelScope.launch(Dispatchers.IO) {
@@ -96,6 +93,14 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
         weather.dateTime = AppUtils.getCurrentDateTime(AppConstants.DATE_FORMAT_1)
         repository.addWeather(weather)
     }
+
+
+    fun removeFromFavourite(weather: Weather) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeFromDB(weather.id ?: return@launch)
+        }
+    }
+
 
     fun fetchWeatherDetailFromDb(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {

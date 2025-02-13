@@ -17,7 +17,10 @@ import com.cyberiyke.weatherApp.util.AppUtils
  * Created by Emmanuel Iyke on 3/7/2024.
  */
 
-class WeatherSearchAdapter : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
+class WeatherSearchAdapter (
+    private val listener: ((Weather) -> Unit)? = null
+
+): RecyclerView.Adapter<WeatherSearchAdapter.HomeViewHolder>() {
 
     private var weatherList = mutableListOf<Weather>()
 
@@ -44,6 +47,9 @@ class WeatherSearchAdapter : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewH
         @SuppressLint("SetTextI18n")
         fun bindItems(weatherDetail: Weather) {
             binding.apply {
+                root.setOnClickListener {
+                    listener?.invoke(weatherDetail)
+                }
                 val iconCode = weatherDetail.icon?.replace("n", "d")
                 AppUtils.setGlideImage(
                     imageWeatherSymbol,
@@ -55,6 +61,7 @@ class WeatherSearchAdapter : RecyclerView.Adapter<WeatherSearchAdapter.HomeViewH
                 textDateTime.text = weatherDetail.dateTime
             }
         }
+
     }
 
 //    private fun updateFavoriteIcon(isFavorite: Boolean, binding: WeatherItemBinding) {

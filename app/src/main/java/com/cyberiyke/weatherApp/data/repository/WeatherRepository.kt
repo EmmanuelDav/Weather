@@ -30,4 +30,8 @@ class WeatherRepository @Inject constructor(
     suspend fun fetchAllWeatherDetails(): List<Weather> {
         return  weatherDao.fetchAllWeatherDetails()
     }
+
+    suspend fun removeFromDB(id: Int) {
+        return weatherDao.deleteWeatherById(id)
+    }
 }
