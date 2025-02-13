@@ -28,11 +28,8 @@ import com.cyberiyke.weatherApp.util.NetworkResult
 import com.cyberiyke.weatherApp.util.hide
 import com.cyberiyke.weatherApp.util.show
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null

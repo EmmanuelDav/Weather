@@ -3,7 +3,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.android)
     id ("kotlin-kapt")
 }
 
@@ -77,11 +76,19 @@ android {
 
 dependencies {
 
-    //Hilt
-    implementation(libs.hilt.android)
+    //dagger
+
+    implementation("com.google.dagger:dagger:2.54")
+    kapt ("com.google.dagger:dagger-compiler:2.x")
+
+    // Dagger Android Support (Optional)
+    implementation ("com.google.dagger:dagger-android:2.54")
+    implementation ("com.google.dagger:dagger-android-support:2.54")
+    kapt ("com.google.dagger:dagger-android-processor:2.54")
+
+
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.paging.common.android)
-    kapt(libs.hilt.android.compiler)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
