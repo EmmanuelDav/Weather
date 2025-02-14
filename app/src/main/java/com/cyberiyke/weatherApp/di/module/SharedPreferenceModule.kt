@@ -1,4 +1,4 @@
-package com.cyberiyke.weatherApp.di
+package com.cyberiyke.weatherApp.di.module
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

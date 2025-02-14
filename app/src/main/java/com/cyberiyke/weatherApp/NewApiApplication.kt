@@ -1,9 +1,8 @@
 package com.cyberiyke.weatherApp
 
 import android.app.Application
-import com.cyberiyke.weatherApp.di.AppComponent
-import com.cyberiyke.weatherApp.di.DaggerAppComponent
-
+import com.cyberiyke.weatherApp.di.component.AppComponent
+import com.cyberiyke.weatherApp.di.component.DaggerAppComponent
 
 
 class NewApiApplication: Application(){
@@ -16,9 +15,9 @@ class NewApiApplication: Application(){
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.create(this)
+        appComponent = DaggerAppComponent.builder()
+            .context(this) // Pass the application context
+            .build()
     }
-
-
 
 }

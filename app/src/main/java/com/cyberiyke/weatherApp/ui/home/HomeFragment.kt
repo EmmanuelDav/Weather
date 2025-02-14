@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cyberiyke.weatherApp.NewApiApplication
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
@@ -28,6 +29,7 @@ import com.cyberiyke.weatherApp.util.NetworkResult
 import com.cyberiyke.weatherApp.util.hide
 import com.cyberiyke.weatherApp.util.show
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import javax.inject.Inject
 
 
 class HomeFragment : Fragment() {
@@ -40,6 +42,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var progressDialog:ProgressDialog
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+
     private  var darkModeIsChecked = true
 
     override fun onCreateView(
@@ -47,10 +53,18 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        homeViewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         val root: View = binding.root
         return root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // Inject dependencies
+        (requireActivity().application as NewApiApplication).appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
