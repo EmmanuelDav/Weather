@@ -79,9 +79,8 @@ dependencies {
     //dagger
 
     implementation("com.google.dagger:dagger:2.54")
-    kapt ("com.google.dagger:dagger-compiler:2.x")
+    kapt ("com.google.dagger:dagger-compiler:2.54")
 
-    // Dagger Android Support (Optional)
     implementation ("com.google.dagger:dagger-android:2.54")
     implementation ("com.google.dagger:dagger-android-support:2.54")
     kapt ("com.google.dagger:dagger-android-processor:2.54")

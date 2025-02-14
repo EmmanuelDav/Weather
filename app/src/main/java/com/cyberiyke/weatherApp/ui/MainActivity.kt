@@ -32,9 +32,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        (application as NewApiApplication).appComponent.inject(this)
-
-
         navView.setupWithNavController(navController)
     }
 

@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.FragmentFavouriteBinding
 import com.cyberiyke.weatherApp.ui.adapter.WeatherSearchAdapter
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null

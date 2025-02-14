@@ -5,7 +5,6 @@ import com.cyberiyke.weatherApp.data.remote.ApiService
 import com.cyberiyke.weatherApp.data.remote.NetworkConnectionInterceptor
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,9 +15,12 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
+     val  BASE_URL = "http://api.openweathermap.org/data/2.5/"
+
+
     @Provides
     @Singleton
-    fun provideNetworkCheck(@ApplicationContext context: Context): NetworkConnectionInterceptor {
+    fun provideNetworkCheck( context: Context): NetworkConnectionInterceptor {
         return NetworkConnectionInterceptor(context)
     }
 
