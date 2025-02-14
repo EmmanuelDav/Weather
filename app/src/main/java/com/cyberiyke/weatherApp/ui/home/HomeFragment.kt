@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cyberiyke.weatherApp.NewApiApplication
+import com.cyberiyke.weatherApp.WeatherApplication
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.databinding.FragmentHomeBinding
@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
 
         // Inject dependencies
-        (requireActivity().application as NewApiApplication).appComponent.inject(this)
+        (requireActivity().application as WeatherApplication).appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -14,6 +14,7 @@ import com.cyberiyke.weatherApp.util.ApiException
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NoInternetException
+import com.cyberiyke.weatherApp.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.launch
@@ -23,10 +24,10 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val repository: WeatherRepository, private val sharedPreferences: SharedPreferences): ViewModel() {
 
-    private val _weatherLiveData = MutableLiveData<NetworkResult<Weather>>()
+    private val _weatherLiveData = SingleLiveEvent<NetworkResult<Weather>>()
     val weatherLiveData:LiveData<NetworkResult<Weather>>  = _weatherLiveData
 
-    private val _weatherListData = MutableLiveData<NetworkResult<List<Weather>>>()
+    private val _weatherListData = SingleLiveEvent<NetworkResult<List<Weather>>>()
     val weatherListData:LiveData<NetworkResult<List<Weather>>>  = _weatherListData
 
     private lateinit var weatherDataResponse : WeatherDataResponse

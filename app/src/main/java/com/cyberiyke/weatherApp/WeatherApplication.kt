@@ -5,7 +5,7 @@ import com.cyberiyke.weatherApp.di.component.AppComponent
 import com.cyberiyke.weatherApp.di.component.DaggerAppComponent
 
 
-class NewApiApplication: Application(){
+class WeatherApplication: Application(){
 
     companion object {
         const val DEBUG_TAG: String = "Weather_App_TAG"
@@ -16,7 +16,7 @@ class NewApiApplication: Application(){
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
-            .context(this) // Pass the application context
+            .context(this)
             .build()
     }
 

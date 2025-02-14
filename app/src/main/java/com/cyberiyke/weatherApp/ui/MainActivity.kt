@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.cyberiyke.weatherApp.NewApiApplication
+import com.cyberiyke.weatherApp.WeatherApplication
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.databinding.ActivityMainBinding
 
@@ -33,9 +33,5 @@ class MainActivity : AppCompatActivity() {
         )
 
         navView.setupWithNavController(navController)
-    }
-
-    fun setBottomNavigationVisibility(visible: Boolean) {
-        binding.navView.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
