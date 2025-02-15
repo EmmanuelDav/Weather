@@ -1,40 +1,41 @@
-# News App 🗞
+# Weather App 🌦️
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]
 
-News App is a simple news app 🗞️ which uses [NewsAPI](https://newsapi.org/) to fetch top news headlines from the API and also search for mews based on user query. The main aim of this app is to be a leading example for best pratices in morden android development architecture and also for a sample project
+Weather App is a sleek and modern Android application that fetches real-time weather data using the [OpenWeatherMap API](https://openweathermap.org/api). It provides users with up-to-date weather information, including temperature, humidity, wind speed, and more, based on their location or a searched city. The app is designed to showcase best practices in modern Android development, clean architecture, and robust testing.
 
-The codebase focuses 👓 on following key things:
-1. [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
-2. [Navigation Components](https://developer.android.com/guide/navigation/navigation-getting-started) using Fragments
-3. [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) & [ViewModel](https://developer.android.com/reference/android/arch/lifecycle/ViewModel)
-4. [Dagger2](https://developer.android.com/training/dependency-injection/dagger-basics) + [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - dependency injection
-5. [Retrofit](https://square.github.io/retrofit/)
-6. [Room](https://developer.android.com/training/data-storage/room)
-7. [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview), [PagingDataAdapter](https://developer.android.com/reference/kotlin/androidx/paging/PagingDataAdapter), [LoadStateAdapter](https://developer.android.com/reference/kotlin/androidx/paging/LoadStateAdapter)
-18. [RecyclerView](https://developer.android.com/guide/topics/ui/layout/recyclerview), [ListAdapter](https://developer.android.com/reference/androidx/recyclerview/widget/ListAdapter)
-18. [GSON](https://github.com/google/gson)
-10. [Kotlin Flow](https://developer.android.com/kotlin/flow)
-11. [Material Design](https://material.io/develop/android)
-12. [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
-13. Clean code with Tests
-14. Firebase Crashlytics 
+The codebase emphasizes the following key technologies and practices:
+1. **[ViewBinding](https://developer.android.com/topic/libraries/view-binding)** - For type-safe view interaction.
+2. **[Navigation Components](https://developer.android.com/guide/navigation/navigation-getting-started)** - Seamless navigation using Fragments.
+3. **[LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData)** & **[ViewModel](https://developer.android.com/reference/android/arch/lifecycle/ViewModel)** - For lifecycle-aware data management.
+4. **[Dagger 2.0](https://developer.android.com/training/dependency-injection/dagger-basics)** - Dependency injection without Hilt for modularity and testability.
+5. **[Retrofit](https://square.github.io/retrofit/)** - For efficient API communication.
+6. **[Room](https://developer.android.com/training/data-storage/room)** - Local data storage and caching.
+7. **[Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)** - For handling large datasets efficiently.
+8. **[Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)** - Asynchronous programming made easy.
+9. **[Material Design](https://material.io/develop/android)** - A modern and responsive UI.
+10. **[Mockito](https://site.mockito.org/)** & **[JUnit](https://junit.org/junit5/)** - For unit and integration testing.
+11. **[Timber](https://github.com/JakeWharton/timber)** - For streamlined logging.
+12. **[Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)** - For monitoring app stability.
+13. **[Coil](https://coil-kt.github.io/coil/)** - For efficient image loading.
+14. **[Shimmer](https://facebook.github.io/shimmer-android/)** - For smooth loading animations.
 
-The idea is to keep the app super simple while demonstrating new libraries and tools which makes it easier to build high quality Android applications.
 
-# Development Setup 🖥
+The goal of this project is to demonstrate how to build a high-quality Android app using modern tools and libraries while maintaining clean, testable, and maintainable code.
 
-You will require latest version of Android Studio 3.0 (or newer) to be able to build the app
+---
+## Development Setup 🖥️
 
-## API key 🔑
-You'll need to provide API key to fetch the news from the News Service (API). Currently the news is fetched from [NewsAPI](https://newsapi.org/) 
+To build and run this project, you’ll need the latest version of **Android Studio** (preferably Arctic Fox or newer).
 
-- Generate an API key (It's only 2 steps!) from [NewsAPI](https://newsapi.org/)
-- Add the apiKey as a value in your `local.properties`
-```
-    API_KEY = <INSERT_YOUR_API_KEY>
-```
-- Build the app 
-- Good Luck 🎉
+### API Key 🔑
+To fetch weather data, you’ll need an API key from [OpenWeatherMap](https://openweathermap.org/api). Follow these steps:
+1. Sign up on [OpenWeatherMap](https://openweathermap.org/api) and generate an API key.
+2. Add the API key to your `local.properties` file:
+   ```properties
+   OPENWEATHER_API_KEY = <INSERT_YOUR_API_KEY>
+
+3. Build the app 🎉
+
 
 <h2 align="left">ScreenShots</h2>
 <h4 align="start">
@@ -46,9 +47,9 @@ You'll need to provide API key to fetch the news from the News Service (API). Cu
 <img src="screenshots/screenshot6.jpeg" width="30%" vspace="10" hspace="10">
 <br>
 
-## Architecture
+## Architecture 🏗️
 
-The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional flow of data, separation of concern, testability, and a lot more.
+The app uses MVVM [Model-View-ViewModel] architecture to ensure a clean separation of concerns, testability, and maintainability. Here’s a high-level overview:
 
 Read more: 
 - [Building Modern Android Apps with Architecture Guidelines](https://medium.com/@aky/building-modern-apps-using-the-android-architecture-guidelines-3238fff96f14)
@@ -56,16 +57,12 @@ Read more:
 
 ![Architecture](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
 
-## TODO
+## Author 👨‍💻
+**Emmanuel Iyke**
 
-Important 
+- GitHub: [@Emmanueldav](https://github.com/emmanueldav)
+- LinkedIn: [Emmanuel Iyke](https://linkedin.com/in/emmanueldav)
+- Email: Emmanueldavis987@gmail.com
 
-1) Pager Integration in Api response (Added)
-2) BackPress in SearchView (Added)
-3) Loading Animation
-
-## Author
-Emmanuel Iyke
-
-## License
-This project is licensed under the Apache License 2.0 - See: http://www.apache.org/licenses/LICENSE-2.0.txt
+## License 📄
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.

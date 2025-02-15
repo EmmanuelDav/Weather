@@ -79,11 +79,22 @@ dependencies {
     //dagger
 
     implementation("com.google.dagger:dagger:2.54")
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.junit.junit)
     kapt ("com.google.dagger:dagger-compiler:2.54")
 
     implementation ("com.google.dagger:dagger-android:2.54")
     implementation ("com.google.dagger:dagger-android-support:2.54")
     kapt ("com.google.dagger:dagger-android-processor:2.54")
+
+
+
+    //Testing
+
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:4.5.1")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0") // For InstantTaskExecutorRule
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4") // For coroutine testing
 
 
     implementation(libs.androidx.swiperefreshlayout)

@@ -8,7 +8,7 @@ import com.cyberiyke.weatherApp.data.remote.SafeApiRequest
 import javax.inject.Inject
 
 
-class WeatherRepository @Inject constructor(
+open class WeatherRepository @Inject constructor(
     private val apiService: ApiService,
     private val weatherDao: WeatherDao
 ) : SafeApiRequest() {

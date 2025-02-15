@@ -19,17 +19,17 @@ data class WeatherDataResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("main")
-    val main: Main,
+    var main: Main,
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("sys")
-    val sys: Sys,
+    var sys: Sys,
     @SerializedName("timezone")
     val timezone: Int,
     @SerializedName("visibility")
     val visibility: Int,
     @SerializedName("weather")
-    val weather: List<Weather>,
+    var weather: List<Weather>,
     @SerializedName("wind")
     val wind: Wind
 ) {
