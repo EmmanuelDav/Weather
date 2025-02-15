@@ -10,8 +10,6 @@ android {
     namespace = "com.cyberiyke.weatherApp"
     compileSdk = 34
 
-
-
     defaultConfig {
         applicationId = "com.cyberiyke.weatherApp"
         minSdk = 24
@@ -30,16 +28,16 @@ android {
         localProperties.load(localPropertiesFile.inputStream())
     }
 
-    val apiKey = localProperties["API_KEY"]?.toString() ?: ""
+    val apiKey = localProperties["OPENWEATHER_API_KEY"]?.toString() ?: ""
 
     if (apiKey.isEmpty()) {
         throw GradleException("""
         API_KEY is missing in local.properties. 
         Please add your API key to the local.properties file as follows:
 
-        API_KEY=your_api_key_here
+        OPENWEATHER_API_KEY =your_api_key_here
         
-        If you don’t have an API key, visit https://newsapi.org/ to generate one. """)
+        If you don’t have an API key, visit https://openweathermap.org/api to generate one. """)
     }
 
 
@@ -53,10 +51,10 @@ android {
         }
 
         getByName("release") {
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            buildConfigField("String", "OPENWEATHER_API_KEY ", "\"$apiKey\"")
         }
         getByName("debug") {
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            buildConfigField("String", "OPENWEATHER_API_KEY ", "\"$apiKey\"")
         }
 
     }

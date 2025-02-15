@@ -13,6 +13,6 @@ interface ApiService {
     suspend fun findCityWeatherData(
         @Query("q") q: String,
         @Query("units") units: String = AppConstants.WEATHER_UNIT,
-        @Query("appid") appid: String = BuildConfig.API_KEY
+        @Query("appid") appid: String = BuildConfig.OPENWEATHER_API_KEY
     ): Response<WeatherDataResponse>
 }
