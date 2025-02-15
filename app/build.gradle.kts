@@ -75,28 +75,16 @@ android {
 dependencies {
 
     //dagger
-
     implementation("com.google.dagger:dagger:2.54")
-    testImplementation(libs.junit.junit)
-    testImplementation(libs.junit.junit)
     kapt ("com.google.dagger:dagger-compiler:2.54")
-
     implementation ("com.google.dagger:dagger-android:2.54")
     implementation ("com.google.dagger:dagger-android-support:2.54")
     kapt ("com.google.dagger:dagger-android-processor:2.54")
 
 
 
-    //Testing
-
-    testImplementation ("junit:junit:4.13.2")
-    testImplementation ("org.mockito:mockito-core:4.5.1")
-    testImplementation ("androidx.arch.core:core-testing:2.1.0") // For InstantTaskExecutorRule
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4") // For coroutine testing
-
 
     implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidx.paging.common.android)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -117,13 +105,6 @@ dependencies {
 
     // Timber logging
     implementation (libs.timber)
-
-    //paging
-    implementation (libs.androidx.paging.runtime)
-
-    implementation (libs.androidx.room.paging)
-
-
 
     // Firebase Crashlytics
     implementation (libs.firebase.crashlytics)
@@ -161,6 +142,19 @@ dependencies {
 
     //testing
     testImplementation(libs.junit)
+    testImplementation(libs.junit.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1") // Or latest version
+    testImplementation(libs.junit.junit)
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("org.mockito:mockito-core:4.5.1")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0") // For InstantTaskExecutorRule
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4") // For coroutine testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0") // Or latest
+    testImplementation ("com.google.truth:truth:1.4.0") // Or latest
+    testImplementation ("org.robolectric:robolectric:4.9") // Or latest (if using Robolectric)
+        // ... other dependencies
 }

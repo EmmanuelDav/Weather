@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
 
     init {
-        _isDarkMode.value = sharedPreferences.getBoolean("isDarkMode", false)
+      //  _isDarkMode.value = sharedPreferences.getBoolean("isDarkMode", false)
     }
 
 
@@ -95,7 +95,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
     fun fetchWeatherDetailFromDb(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val weatherDetail = repository.fetchWeatherByDd(cityName.toLowerCase())
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 if (weatherDetail != null) {
                     // Return true of current date and time is greater then the saved date and time of weather searched
                     if (AppUtils.isTimeExpired(weatherDetail.dateTime)) {
@@ -119,7 +119,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
     fun fetchAllWeatherDetailsFromDb() {
         viewModelScope.launch(Dispatchers.IO) {
             val weatherDetailList = repository.fetchAllWeatherDetails()
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 _weatherListData.postValue(
                         NetworkResult.success(weatherDetailList)
                 )
