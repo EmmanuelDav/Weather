@@ -14,12 +14,9 @@ import com.cyberiyke.weatherApp.util.ApiException
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NoInternetException
-import com.cyberiyke.weatherApp.util.Status
 import com.shashank.weatherapp.util.Event
-import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -39,11 +36,11 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
 
     init {
-      //  _isDarkMode.value = sharedPreferences.getBoolean("isDarkMode", false)
+        _isDarkMode.value = sharedPreferences.getBoolean("isDarkMode", false)
     }
 
 
-    private fun findWeatherByCity(city:String){
+     fun findWeatherByCityApiCall(city:String){
         _weatherLiveData.value = Event(NetworkResult.loading(null))
         viewModelScope.launch {
             try {
@@ -92,8 +89,9 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
             val weatherDetail = repository.fetchWeatherByCityName(cityName.toLowerCase())
                 if (weatherDetail != null) {
                     // Return true of current date and time is greater then the saved date and time of weather searched
+                    // if the time is 10 mins old
                     if (AppUtils.isTimeExpired(weatherDetail.dateTime)) {
-                        findWeatherByCity(cityName)
+                        findWeatherByCityApiCall(cityName)
                     } else {
                         _weatherLiveData.postValue(Event(
                                 NetworkResult.success(
@@ -103,7 +101,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                     }
 
                 } else {
-                    findWeatherByCity(cityName)
+                    findWeatherByCityApiCall(cityName)
                 }
         }
     }
