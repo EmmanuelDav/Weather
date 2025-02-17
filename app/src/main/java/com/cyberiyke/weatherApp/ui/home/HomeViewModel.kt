@@ -14,7 +14,7 @@ import com.cyberiyke.weatherApp.util.ApiException
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NoInternetException
-import com.cyberiyke.weatherApp.util.SingleLiveEvent
+import com.shashank.weatherapp.util.Event
 import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.launch
@@ -24,11 +24,11 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val repository: WeatherRepository, private val sharedPreferences: SharedPreferences): ViewModel() {
 
-    private val _weatherLiveData = SingleLiveEvent<NetworkResult<Weather>>()
-    val weatherLiveData:LiveData<NetworkResult<Weather>>  = _weatherLiveData
+    private val _weatherLiveData = MutableLiveData<Event<NetworkResult<Weather>>>()
+    val weatherLiveData:LiveData<Event<NetworkResult<Weather>>>  = _weatherLiveData
 
-    private val _weatherListData = SingleLiveEvent<NetworkResult<List<Weather>>>()
-    val weatherListData:LiveData<NetworkResult<List<Weather>>>  = _weatherListData
+    private val _weatherListData = MutableLiveData<Event<NetworkResult<List<Weather>>>>()
+    val weatherListData:LiveData<Event<NetworkResult<List<Weather>>>>  = _weatherListData
 
     private lateinit var weatherDataResponse : WeatherDataResponse
 
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
 
     private fun findWeatherByCity(city:String){
-        _weatherLiveData.value = NetworkResult.loading()
+        _weatherLiveData.value = Event(NetworkResult.loading())
         viewModelScope.launch {
             try {
                 weatherDataResponse = repository.findCityWeatherByApi(city)
@@ -54,15 +54,15 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                     weather.icon = weatherDataResponse.weather.first().icon
                     weather.temp = weatherDataResponse.main.temp
                     weather.countryName = weatherDataResponse.sys.country
-                    _weatherLiveData.value = NetworkResult.success(weather)
+                    _weatherLiveData.value = Event(NetworkResult.success(weather))
                 }
 
             } catch (e: ApiException) {
-                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
             } catch (e: NoInternetException) {
-                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
             } catch (e: Exception) {
-                    _weatherLiveData.value = NetworkResult.error(e.message ?: "")
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
             }
         }
     }
@@ -94,10 +94,10 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                     if (AppUtils.isTimeExpired(weatherDetail.dateTime)) {
                         findWeatherByCity(cityName)
                     } else {
-                        _weatherLiveData.postValue(
+                        _weatherLiveData.postValue(Event(
                                 NetworkResult.success(
                                     weatherDetail
-                                )
+                                ))
                         )
                     }
 
@@ -107,14 +107,13 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
         }
     }
 
-    fun fetchAllWeatherDetailsFromDb() {
-        viewModelScope.launch {
+    fun fetchAllWeatherDetailsFromDb()  = viewModelScope.launch {
             val weatherDetailList = repository.fetchAllWeatherDetails()
                 _weatherListData.postValue(
-                        NetworkResult.success(weatherDetailList)
+                       Event( NetworkResult.success(weatherDetailList))
                 )
         }
-    }
+
 
     fun onThemeToggleChanged(isChecked: Boolean) {
         _isDarkMode.value = isChecked

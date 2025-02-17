@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.cyberiyke.weatherApp.MainCoroutineRule
 import com.cyberiyke.weatherApp.data.local.model.WeatherDataResponse
 import com.cyberiyke.weatherApp.data.local.room.dao.WeatherDao
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
@@ -11,7 +12,9 @@ import com.cyberiyke.weatherApp.data.remote.ApiService
 import com.cyberiyke.weatherApp.data.repository.WeatherRepository
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
+import com.cyberiyke.weatherApp.getOrAwaitValueTest
 import com.cyberiyke.weatherApp.util.NetworkResult
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -50,6 +53,10 @@ class HomeViewModelTest {
     @Mock
     private lateinit var weatherDao: WeatherDao
 
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+
     private lateinit var viewModel: HomeViewModel
 
     private val testDispatcher = StandardTestDispatcher()
@@ -60,7 +67,6 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-
         repository = WeatherRepository(apiService, weatherDao)
         viewModel = HomeViewModel(repository, sharedPreferences)
     }
@@ -68,6 +74,16 @@ class HomeViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `fetchDataByCity takes an empty parameter` () = runTest{
+        viewModel.fetchWeatherDetailFromDb("")
+
+        val value = viewModel.weatherLiveData.getOrAwaitValueTest()
+
+        assertThat(value.)
+
     }
 
     @Test

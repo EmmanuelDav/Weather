@@ -10,13 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cyberiyke.weatherApp.WeatherApplication
 import com.cyberiyke.weatherApp.R
 import com.cyberiyke.weatherApp.data.local.room.entity.Weather
@@ -29,6 +27,7 @@ import com.cyberiyke.weatherApp.util.NetworkResult
 import com.cyberiyke.weatherApp.util.hide
 import com.cyberiyke.weatherApp.util.show
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.cyberiyke.weatherApp.util.EventObserver
 import javax.inject.Inject
 
 
@@ -135,7 +134,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeAPICall() {
-        homeViewModel.weatherLiveData.observe(viewLifecycleOwner, Observer { state ->
+        homeViewModel.weatherLiveData.observe(requireActivity(),EventObserver { state ->
             when (state) {
                 is NetworkResult.Error -> {
                     progressDialog.dismiss()
@@ -172,7 +171,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.weatherListData.observe(viewLifecycleOwner, Observer { state ->
+        homeViewModel.weatherListData.observe(requireActivity(),EventObserver { state ->
             when (state) {
                 is NetworkResult.Loading -> {
                     progressDialog.dismiss()
