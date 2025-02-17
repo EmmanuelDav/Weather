@@ -57,6 +57,9 @@ class HomeViewModelTest {
     @Mock
     private lateinit var weatherDao: WeatherDao
 
+    @Mock
+    private lateinit var appUtil:AppUtils
+
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
@@ -73,6 +76,10 @@ class HomeViewModelTest {
         Dispatchers.setMain(testDispatcher)
         repository = WeatherRepository(apiService, weatherDao)
         viewModel = HomeViewModel(repository, sharedPreferences)
+
+        mockkObject(AppUtils)
+
+
     }
 
     @After
