@@ -14,6 +14,7 @@ import com.cyberiyke.weatherApp.util.ApiException
 import com.cyberiyke.weatherApp.util.AppConstants
 import com.cyberiyke.weatherApp.util.AppUtils
 import com.cyberiyke.weatherApp.util.NoInternetException
+import com.cyberiyke.weatherApp.util.Status
 import com.shashank.weatherapp.util.Event
 import kotlinx.coroutines.Dispatchers
 
@@ -43,7 +44,7 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
 
     private fun findWeatherByCity(city:String){
-        _weatherLiveData.value = Event(NetworkResult.loading())
+        _weatherLiveData.value = Event(NetworkResult.loading(null))
         viewModelScope.launch {
             try {
                 weatherDataResponse = repository.findCityWeatherByApi(city)
@@ -58,11 +59,11 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                 }
 
             } catch (e: ApiException) {
-                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: "",null))
             } catch (e: NoInternetException) {
-                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: "", null))
             } catch (e: Exception) {
-                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: ""))
+                    _weatherLiveData.value = Event(NetworkResult.error(e.message ?: "", null))
             }
         }
     }

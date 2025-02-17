@@ -1,17 +1,25 @@
 package com.cyberiyke.weatherApp.util
 
-sealed class NetworkResult<T> {
-    class Loading<T> : NetworkResult<T>()
-
-    data class Success<T>(val data: T) : NetworkResult<T>()
-
-    data class Error<T>(val message: String) : NetworkResult<T>()
-
+data class NetworkResult<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {
-        fun <T> loading() = Loading<T>()
-        fun <T> success(data: T) = Success(data)
-        fun <T> error(message: String) = Error<T>(message)
+        fun <T> success(data: T?): NetworkResult<T> {
+            return NetworkResult(Status.SUCCESS, data, null)
+        }
+
+        fun <T> error(msg: String, data: T?): NetworkResult<T> {
+            return NetworkResult(Status.ERROR, data, msg)
+        }
+
+        fun <T> loading(data: T?): NetworkResult<T> {
+            return NetworkResult(Status.LOADING, data, null)
+        }
     }
+}
+
+enum class Status {
+    SUCCESS,
+    ERROR,
+    LOADING
 }
 
 

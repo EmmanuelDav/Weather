@@ -28,6 +28,7 @@ import com.cyberiyke.weatherApp.util.hide
 import com.cyberiyke.weatherApp.util.show
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.cyberiyke.weatherApp.util.EventObserver
+import com.cyberiyke.weatherApp.util.Status
 import javax.inject.Inject
 
 
@@ -135,8 +136,8 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun observeAPICall() {
         homeViewModel.weatherLiveData.observe(requireActivity(),EventObserver { state ->
-            when (state) {
-                is NetworkResult.Error -> {
+            when (state.status) {
+                Status.ERROR  -> {
                     progressDialog.dismiss()
                     binding.NoNetworkLayout.show()
                     binding.constraintLayoutShowingTemp.hide()
@@ -144,15 +145,15 @@ class HomeFragment : Fragment() {
 
 
                 }
-                is NetworkResult.Loading -> {
+                 Status.LOADING -> {
                     progressDialog.show()
                 }
-                is NetworkResult.Success -> {
+                Status.SUCCESS -> {
                     binding.NoNetworkLayout.hide()
                     binding.constraintLayoutShowingTemp.show()
                     binding.inputFindCityWeather.text?.clear()
                     state.data.let { weatherDetail ->
-                        val iconCode = weatherDetail.icon?.replace("n", "d")
+                        val iconCode = weatherDetail!!.icon?.replace("n", "d")
                         AppUtils.setGlideImage(
                             binding.imageWeatherSymbol,
                             AppConstants.WEATHER_API_IMAGE_ENDPOINT + "${iconCode}@4x.png"
@@ -171,24 +172,25 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.weatherListData.observe(requireActivity(),EventObserver { state ->
-            when (state) {
-                is NetworkResult.Loading -> {
+        homeViewModel.weatherListData.observe(requireActivity(), EventObserver { state ->
+            when (state.status) {
+                Status.LOADING -> {
                     progressDialog.dismiss()
                     binding.NoNetworkLayout.show()
-
                 }
-                is NetworkResult.Success -> {
-                    if (state.data.isEmpty()) {
-                        binding.recyclerViewSearchedCityTemperature.hide()
-                    } else {
-                        binding.recyclerViewSearchedCityTemperature.show()
-                        weatherSearchAdapter.setData(state.data)
-                        binding.swipeRefresh.isRefreshing = false
+                Status.SUCCESS -> {
+                    state.data?.let { data ->
+                        if (data.isEmpty()) {
+                            binding.recyclerViewSearchedCityTemperature.hide()
+                        } else {
+                            binding.recyclerViewSearchedCityTemperature.show()
+                            weatherSearchAdapter.setData(data)
+                            binding.swipeRefresh.isRefreshing = false
+                        }
                     }
                 }
-                is NetworkResult.Error -> {
-
+                Status.ERROR -> {
+                    // Handle error case
                 }
             }
         })
