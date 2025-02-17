@@ -44,11 +44,11 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
     private fun findWeatherByCity(city:String){
         _weatherLiveData.value = NetworkResult.loading()
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
                 weatherDataResponse = repository.findCityWeatherByApi(city)
                 addWeatherIntoDd(weatherDataResponse)
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch{
                     val weather = Weather()
                     weather.cityName = weatherDataResponse.name.lowercase()
                     weather.icon = weatherDataResponse.weather.first().icon
@@ -58,17 +58,11 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                 }
 
             } catch (e: ApiException) {
-                withContext(Dispatchers.Main) {
                     _weatherLiveData.value = NetworkResult.error(e.message ?: "")
-                }
             } catch (e: NoInternetException) {
-                withContext(Dispatchers.Main) {
                     _weatherLiveData.value = NetworkResult.error(e.message ?: "")
-                }
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
                     _weatherLiveData.value = NetworkResult.error(e.message ?: "")
-                }
             }
         }
     }
@@ -86,16 +80,15 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
 
 
     fun removeFromFavourite(weather: Weather) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeFromDB(weather.id ?: return@launch)
+        viewModelScope.launch {
+            repository.deleteFromDbByID(weather.id ?: return@launch)
         }
     }
 
 
     fun fetchWeatherDetailFromDb(cityName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val weatherDetail = repository.fetchWeatherByDd(cityName.toLowerCase())
-            withContext(Dispatchers.IO) {
+        viewModelScope.launch {
+            val weatherDetail = repository.fetchWeatherByCityName(cityName.toLowerCase())
                 if (weatherDetail != null) {
                     // Return true of current date and time is greater then the saved date and time of weather searched
                     if (AppUtils.isTimeExpired(weatherDetail.dateTime)) {
@@ -111,19 +104,15 @@ class HomeViewModel @Inject constructor(private val repository: WeatherRepositor
                 } else {
                     findWeatherByCity(cityName)
                 }
-
-            }
         }
     }
 
     fun fetchAllWeatherDetailsFromDb() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val weatherDetailList = repository.fetchAllWeatherDetails()
-            withContext(Dispatchers.IO) {
                 _weatherListData.postValue(
                         NetworkResult.success(weatherDetailList)
                 )
-            }
         }
     }
 

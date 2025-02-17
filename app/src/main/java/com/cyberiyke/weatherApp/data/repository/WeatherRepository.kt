@@ -15,7 +15,7 @@ open class WeatherRepository @Inject constructor(
 
     suspend fun findCityWeatherByApi(cityName: String): WeatherDataResponse {
         return apiRequest {
-            apiService.findCityWeatherData(cityName)
+            apiService.findCityWeatherDataByApiCall(cityName)
         }
     }
 
@@ -23,7 +23,7 @@ open class WeatherRepository @Inject constructor(
         return weatherDao.addWeather(weatherDetail)
     }
 
-    suspend fun fetchWeatherByDd(cityName: String): Weather? {
+    suspend fun fetchWeatherByCityName(cityName: String): Weather? {
         return weatherDao.fetchWeatherByCity(cityName)
     }
 
@@ -31,7 +31,7 @@ open class WeatherRepository @Inject constructor(
         return  weatherDao.fetchAllWeatherDetails()
     }
 
-    suspend fun removeFromDB(id: Int) {
+    suspend fun deleteFromDbByID(id: Int) {
         return weatherDao.deleteWeatherById(id)
     }
 }

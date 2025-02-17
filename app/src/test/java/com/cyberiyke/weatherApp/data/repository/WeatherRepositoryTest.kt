@@ -7,6 +7,7 @@ import com.cyberiyke.weatherApp.data.local.room.entity.Weather
 import com.cyberiyke.weatherApp.data.remote.ApiService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class) // Initializes Mockito
+@RunWith(MockitoJUnitRunner::class)
 class WeatherRepositoryTest {
 
     @Mock
@@ -34,7 +35,7 @@ class WeatherRepositoryTest {
     }
 
     @Test
-    fun `findCityWeatherByApi should call apiService and return WeatherDataResponse`() = runBlockingTest {
+    fun `findCityWeatherByApi should call apiService and return WeatherDataResponse`() = runTest {
         // Arrange
         val cityName = "London"
         val mockResponse = WeatherDataResponse(
@@ -79,19 +80,18 @@ class WeatherRepositoryTest {
 
         val mockitoResponseData = Response.success(mockResponse)
 
-        // Mock API response
-        doReturn(mockitoResponseData).`when`(apiService).findCityWeatherData(cityName)
+        `when`(apiService.findCityWeatherDataByApiCall(cityName)).thenReturn(mockitoResponseData)
 
         // Act
         val result = repository.findCityWeatherByApi(cityName)
 
         // Assert
-        verify(apiService).findCityWeatherData(cityName) // Verify API was called
+        verify(apiService).findCityWeatherDataByApiCall(cityName) // Verify API was called
         assertEquals(mockResponse, result) // Better assertion
     }
 
     @Test
-    fun `addWeather should call weatherDao to add weather`() = runBlockingTest {
+    fun `addWeather should call weatherDao to add weather`() = runTest {
         // Arrange
         val mockWeather = Weather().apply {
             cityName = "London"
@@ -107,20 +107,21 @@ class WeatherRepositoryTest {
     }
 
     @Test
-    fun `fetchWeatherByDb should call weatherDao and return Weather`() = runBlockingTest {
+    fun `fetchWeatherByCityName should call weatherDao and return Weather`() = runTest {
         // Arrange
-        var cityName = ""
         val mockWeather = Weather().apply {
             cityName = "London"
             temp = 20.0
             countryName = "UK"
         }
 
+        val cityName = "London"
+
         // Mock DAO
-        doReturn(mockWeather).`when`(weatherDao).fetchWeatherByCity(cityName)
+        `when`(weatherDao.fetchWeatherByCity(cityName)).thenReturn(mockWeather)
 
         // Act
-        val result = repository.fetchWeatherByDd(cityName)
+        val result = repository.fetchWeatherByCityName(cityName)
 
         // Assert
         verify(weatherDao).fetchWeatherByCity(cityName)
@@ -128,7 +129,7 @@ class WeatherRepositoryTest {
     }
 
     @Test
-    fun `fetchAllWeatherDetails should call weatherDao and return list of Weather`() = runBlockingTest {
+    fun `fetchAllWeatherDetails should call weatherDao and return list of Weather`() = runTest {
         // Arrange
         val mockWeatherList = listOf(
             Weather().apply {
@@ -144,7 +145,7 @@ class WeatherRepositoryTest {
         )
 
         // Mock DAO
-        doReturn(mockWeatherList).`when`(weatherDao).fetchAllWeatherDetails()
+        `when`(weatherDao.fetchAllWeatherDetails()).thenReturn(mockWeatherList)
 
         // Act
         val result = repository.fetchAllWeatherDetails()
@@ -155,12 +156,12 @@ class WeatherRepositoryTest {
     }
 
     @Test
-    fun `removeFromDB should call weatherDao to delete weather by id`() = runBlockingTest {
+    fun `deleteFromDbByID should call weatherDao to delete weather by id`() = runTest {
         // Arrange
         val id = 1
 
         // Act
-        repository.removeFromDB(id)
+        repository.deleteFromDbByID(id)
 
         // Assert
         verify(weatherDao).deleteWeatherById(id)
